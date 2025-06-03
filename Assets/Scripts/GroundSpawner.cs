@@ -23,7 +23,7 @@ public class GroundSpawner : MonoBehaviour
         lastEndPoint = firstPath.transform.Find("EndPoint");
 
         
-        for (int i = 1; i < 10; i++)
+        for (int i = 1; i < 20; i++)
         {
             SpawnNextPath();
         }
