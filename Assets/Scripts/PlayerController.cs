@@ -1,5 +1,8 @@
-﻿using Unity.VisualScripting;
+﻿
+using Unity.Cinemachine;
+using Unity.VisualScripting;
 using UnityEngine;
+
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,11 +11,13 @@ public class PlayerController : MonoBehaviour
     private float horizontalInput;
     [SerializeField] float jumpForce = 10f;
     private bool isGrounded = false;
+  
     Animator ani;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         ani = GetComponentInChildren<Animator>();
+       
     }
 
     // Update is called once per frame
@@ -59,13 +64,13 @@ public class PlayerController : MonoBehaviour
         ani.SetTrigger("Jump");
 
     }
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.CompareTag("Trap"))
-    //    {
-    //        Knockback();  // Gọi hàm hất ngược
-    //    }
-    //}
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Trap"))
+        {
+            Knockback();  // Gọi hàm hất ngược
+        }
+    }
     private void Knockback()
     {
         // Hướng ngược với hướng di chuyển
@@ -73,7 +78,9 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(knockDirection.normalized * 700f); 
         ani.SetBool("Fall", true);
         moveSpeed = 0f;
-       
+        
+        
+
     }
 
 }
