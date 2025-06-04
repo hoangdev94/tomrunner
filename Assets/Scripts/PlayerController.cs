@@ -59,24 +59,21 @@ public class PlayerController : MonoBehaviour
         ani.SetTrigger("Jump");
 
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Trap"))
-        {
-            Knockback();  // Gọi hàm hất ngược
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.CompareTag("Trap"))
+    //    {
+    //        Knockback();  // Gọi hàm hất ngược
+    //    }
+    //}
     private void Knockback()
     {
         // Hướng ngược với hướng di chuyển
         Vector3 knockDirection = -transform.forward + Vector3.up * 0.5f;
-
-        rb.AddForce(knockDirection.normalized * 500f); // tùy chỉnh lực
-        ani.SetTrigger("Fall"); // Giả sử bạn có animation "Fall"
-
-        // Tạm khóa điều khiển nếu cần
-        moveSpeed = 0f;
+        rb.AddForce(knockDirection.normalized * 700f); 
         ani.SetBool("Fall", true);
+        moveSpeed = 0f;
+       
     }
 
 }
