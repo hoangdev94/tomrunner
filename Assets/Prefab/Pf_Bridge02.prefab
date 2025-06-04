@@ -26,9 +26,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1020026508779869616}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: -1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6741815131265057269}
@@ -39,7 +39,7 @@ Transform:
   - {fileID: 3542385841416870501}
   - {fileID: 1159601180923508217}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!65 &6033016018261878792
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -74,6 +74,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coinPrefab: {fileID: 8331334339560245829, guid: 48bc6cf39fbd7e44d933bd03d6ce761a, type: 3}
+  trainPrefabs:
+  - {fileID: 8520096102195630418, guid: 13f9df3c819a5a14492c3e88eadd9328, type: 3}
+  - {fileID: 65192758935293948, guid: 72cc362ffcc7d3847807a4e2c3bfb5c2, type: 3}
+  - {fileID: 5183257725532521698, guid: 5a568dfc6d15b894bbf5e2a7664dd97c, type: 3}
+  - {fileID: 6372401692820722403, guid: ec57fc19f5e1dd54f9f446ca31360a93, type: 3}
+  - {fileID: 1777260000564528772, guid: 2efcdb8494a0b68458f9fee41af5a9d8, type: 3}
+  - {fileID: 5255182059220090626, guid: 935355fd135d0f74390dc440753f935b, type: 3}
+  spawnTrain: 1
+  spawnTrap: 1
+  trapPrefabs:
+  - {fileID: 8349282762530895123, guid: 30d97614d6fa25f458827295d3e7e250, type: 3}
+  - {fileID: 8000393089320594214, guid: 11f0678ea17eacd40bc850b61ca5d77c, type: 3}
+  - {fileID: 9003514833480120619, guid: 746db8ed69b6a484d8712c927d0737a2, type: 3}
   spawnPoints:
   - {fileID: 6741815131265057269}
   - {fileID: 9047112168251608376}

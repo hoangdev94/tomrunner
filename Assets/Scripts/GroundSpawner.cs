@@ -5,6 +5,7 @@ public class GroundSpawner : MonoBehaviour
     public static GroundSpawner Instance;
     public GameObject[] paths;
     private Transform lastEndPoint;
+    [SerializeField] GameObject first;
     private void Awake()
     {
         if(Instance == null)
@@ -19,27 +20,56 @@ public class GroundSpawner : MonoBehaviour
     }
     void Start()
     {
-        GameObject firstPath = Instantiate(paths[Random.Range(0, paths.Length)], Vector3.zero, Quaternion.identity);
-        lastEndPoint = firstPath.transform.Find("EndPoint");
+        lastEndPoint = first.transform.Find("EndPoint");
+        Debug.Log(lastEndPoint);
+        if (lastEndPoint == null)
+        {
+            Debug.LogError($"{first.name} thiếu EndPoint – kiểm tra lại prefab!");
+            return;
+        }
 
-        
-        for (int i = 1; i < 20; i++)
+        // Tạo thêm các đoạn nối tiếp
+        for (int i = 0; i < 20; i++)
         {
             SpawnNextPath();
         }
+
     }
 
     public void SpawnInitialPath()
     {
-        GameObject firstPath = Instantiate(paths[Random.Range(0, paths.Length)], Vector3.zero, Quaternion.identity);
-        lastEndPoint = firstPath.transform.Find("EndPoint");
+        lastEndPoint = first.transform.Find("EndPoint");
+        if (lastEndPoint == null)
+            Debug.Log($"{first.name} thiếu EndPoint – kiểm tra lại prefab!");
     }
+
+    GameObject RandomPath() => paths[Random.Range(0, paths.Length)];
 
     public void SpawnNextPath()
     {
-        int randomIndex = Random.Range(0, paths.Length);
-        GameObject newPath = Instantiate(paths[randomIndex], lastEndPoint.position, Quaternion.identity);
-        lastEndPoint = newPath.transform.Find("EndPoint");
+        GameObject prefab = RandomPath();
+        GameObject next = Instantiate(prefab);
+
+        Transform startPoint = next.transform.Find("StartPoint");
+        if (startPoint != null)
+        {
+            // Nếu có StartPoint → căn chính xác
+            Vector3 offset = next.transform.position - startPoint.position;
+            next.transform.position = lastEndPoint.position + offset;
+        }
+        else
+        {
+            // Nếu không có → gán luôn vị trí EndPoint của trước
+            next.transform.position = lastEndPoint.position;
+        }
+
+        lastEndPoint = next.transform.Find("EndPoint");
+
+        if (lastEndPoint == null)
+        {
+            Debug.LogError($"{prefab.name} thiếu EndPoint");
+        }
     }
+
 }
 
