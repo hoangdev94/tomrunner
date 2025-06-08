@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 2519225487514709378}
   m_Layer: 0
   m_Name: Pillar
-  m_TagString: Untagged
+  m_TagString: Trap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -223,8 +223,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.94116974, y: 6.9570007, z: 0.88827693}
-  m_Center: {x: 0, y: 3.4784966, z: -0.00000016391277}
+  m_Size: {x: 0.9783587, y: 6.9570007, z: 1.0380907}
+  m_Center: {x: 0.018594474, y: 3.4784966, z: -0.019123718}
 --- !u!1 &3876058553864893529
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,21 +3,19 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags:
-  - Ground
-  - Trap
+  tags: []
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - trap
+  - 
   - Water
   - UI
-  - Player
   - 
   - 
-  - 
-  - 
+  - Coins
+  - Obstacle
+  - Powerup
   - 
   - 
   - 
