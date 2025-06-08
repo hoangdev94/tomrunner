@@ -182,6 +182,7 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         GameManager.Instance.GameOver();
+        Time.timeScale = 0;
     }
 
 

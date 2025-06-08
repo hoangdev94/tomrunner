@@ -1,85 +1,154 @@
+﻿using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
-using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
-using System.Collections;
+
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance { get; set; }
+    public static GameManager Instance { get; private set; }
 
-    private int totalScore;
+    [Header("UI References")]
+    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI distanceText;
+    [SerializeField] private TextMeshProUGUI topDistanceText;
+    [SerializeField] private GameObject gameoverUI;
+
+    private int totalScore = 0;
     private int currentScore = 0;
-    [SerializeField]  TextMeshProUGUI scoreText;
-    [SerializeField] TextMeshProUGUI distance;
+    private int topDistance = 0;
+    private bool isGameover = false;
 
-    [SerializeField] GameObject gameoverUI;
-    public bool isGameover = false;
+    public bool IsGameOver() => isGameover;
 
-    void Start()
+    private void Awake()
     {
-        if(Instance != null)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
+            return;
         }
 
-        
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
-        UpdateScore();
+        topDistance = PlayerPrefs.GetInt("TopDistance", 0);
+        UpdateTopDistance();
+        FindUIReferences(); 
     }
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "MainGame")
+        {
+            FindUIReferences();
+        }
+    }
+    private void FindUIReferences()
+    {
+        if (scoreText == null)
+        {
+            var obj = GameObject.Find("ScoreText");
+            if (obj) scoreText = obj.GetComponent<TextMeshProUGUI>();
+        }
+
+        if (distanceText == null)
+        {
+            var obj = GameObject.Find("DistanceText");
+            if (obj) distanceText = obj.GetComponent<TextMeshProUGUI>();
+        }
+
+        if (topDistanceText == null)
+        {
+            var obj = GameObject.Find("TopDistanceText");
+            if (obj) topDistanceText = obj.GetComponent<TextMeshProUGUI>();
+        }
+
+        if (gameoverUI == null)
+        {
+            var obj = GameObject.Find("GameOverUI");
+            if (obj)
+            {
+                gameoverUI = obj;
+                gameoverUI.SetActive(false);
+            }
+            
+        }
+    }
+    private void Update()
+    {
+        UpdateScoreText();
+    }
+
     public void AddScore(int score)
     {
         currentScore += score;
-        Debug.Log(currentScore);
+        Debug.Log("Score: " + currentScore);
     }
-    void UpdateScore()
+
+    public void UpdateRoadDistance(float distance)
     {
-        scoreText.text = currentScore.ToString();
+        int dist = Mathf.FloorToInt(distance);
+
+        if (distanceText != null)
+            distanceText.text = $"{dist} m";
+
+        if (dist > topDistance)
+        {
+            topDistance = dist;
+            PlayerPrefs.SetInt("TopDistance", topDistance);
+            PlayerPrefs.Save();
+            UpdateTopDistance();
+        }
     }
-    public void UpdateRoadText(float currentDistance)
+
+    public void UpdateTopDistance()
     {
-        distance.text = Mathf.FloorToInt(currentDistance).ToString() + " m";
+        if (topDistanceText != null)
+            topDistanceText.text = $"{topDistance} m";
     }
+
     public void GameOver()
     {
         isGameover = true;
         totalScore += currentScore;
-        if (gameoverUI != null) gameoverUI.SetActive(true);
-        StartCoroutine(StopGameAfterGameOver(3));
+
+        if (gameoverUI != null)
+            gameoverUI.SetActive(true);
+        UpdateTopDistance();
     }
-    public bool IsGameOver()
-    {
-        return isGameover;
-    }
+   
     public void RestartGame()
     {
         isGameover = false;
         currentScore = 0;
-        UpdateScore();
         Time.timeScale = 1;
         SceneManager.LoadScene("MainGame");
-
     }
-    private IEnumerator StopGameAfterGameOver(float delay)
+
+    public void StartGame()
     {
-        yield return new WaitForSeconds(delay);
-        Time.timeScale = 0;
+        SceneManager.LoadScene("MainGame");
     }
 
     public void GoToMenu()
     {
-        Time.timeScale = 1;
+        Time.timeScale = 1f;
         isGameover = false;
-        SceneManager.LoadScene("Menu");
+        SceneManager.LoadScene("MenuGame");
     }
 
+    private void UpdateScoreText()
+    {
+        if (scoreText != null)
+            scoreText.text = currentScore.ToString();
+    }
+
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
 }

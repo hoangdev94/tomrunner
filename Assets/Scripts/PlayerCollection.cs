@@ -15,7 +15,7 @@ public class PlayerConllection : MonoBehaviour
         float distance = Vector3.Distance(transform.position, lastPosition);
         distanceTravelled += distance;
         lastPosition = transform.position;
-        GameManager.Instance.UpdateRoadText(distanceTravelled);
+        GameManager.Instance.UpdateRoadDistance(distanceTravelled);
     }
     private void OnTriggerEnter(Collider other)
     {
