@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3409417123346696962}
   - component: {fileID: 9130127204088473592}
+  - component: {fileID: 4070205361608837865}
   m_Layer: 0
   m_Name: Pf_Train02
   m_TagString: Untagged
@@ -56,6 +57,18 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: a42de345b5f6cb942a87940625eb0bc1, type: 3}
+--- !u!114 &4070205361608837865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2923055520536656804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f499fee0ba93df418aa94ecaa0cf85f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4313891932789450617
 GameObject:
   m_ObjectHideFlags: 0

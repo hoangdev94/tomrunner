@@ -182,6 +182,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7621091852005622687}
   - component: {fileID: 2101613295100759332}
+  - component: {fileID: 6851845413771760049}
   m_Layer: 0
   m_Name: Pf_Train04
   m_TagString: Trap
@@ -227,3 +228,15 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2, y: 3, z: 5.689554}
   m_Center: {x: 0, y: 1.55, z: -0.00007534027}
+--- !u!114 &6851845413771760049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6372401692820722403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f499fee0ba93df418aa94ecaa0cf85f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

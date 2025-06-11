@@ -5,6 +5,7 @@ public enum SIDE { Left, Mid, Right }
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController Instance;
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float laneDistance = 2.5f;
@@ -26,7 +27,10 @@ public class PlayerController : MonoBehaviour
     private float swipeThreshold = 50f;
 
     private bool isKnockedBack = false;
-
+    private void Awake()
+    {
+        Instance = this;
+    }
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -169,21 +173,19 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground")) isGrounded = false;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Trap"))
-        {
-            Knockback();
-            StartCoroutine(GameOverAfterDelay(2f));
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.CompareTag("Trap"))
+    //    {
+    //        Knockback();
+    //        StartCoroutine(GameOverAfterDelay(2f));
+    //    }
+    //}
 
-    private IEnumerator GameOverAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        GameManager.Instance.GameOver();
-        Time.timeScale = 0;
-    }
-
-
+    //private IEnumerator GameOverAfterDelay(float delay)
+    //{
+    //    yield return new WaitForSeconds(delay);
+    //    GameManager.Instance.GameOver();
+    //    Time.timeScale = 0;
+    //}
 }

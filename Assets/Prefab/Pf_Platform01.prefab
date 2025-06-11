@@ -627,7 +627,7 @@ Transform:
   m_GameObject: {fileID: 8737422730391440038}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 3.157, z: -11.91}
+  m_LocalPosition: {x: -0, y: 1, z: -11.91}
   m_LocalScale: {x: 1, y: 1, z: -1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -645,6 +645,7 @@ GameObject:
   - component: {fileID: 8596903696478770635}
   - component: {fileID: 2548865455014222479}
   - component: {fileID: 610334502337933989}
+  - component: {fileID: -9033805052200450742}
   m_Layer: 0
   m_Name: Pf_Platform01
   m_TagString: Ground
@@ -660,7 +661,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8739519574989841603}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -678,7 +679,7 @@ Transform:
   - {fileID: 8463744230922293090}
   - {fileID: 5974042240623802079}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &8596903696478770635
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -733,14 +734,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64a36910272ee9846871c41fd893fd89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinPrefab: {fileID: 8331334339560245829, guid: 48bc6cf39fbd7e44d933bd03d6ce761a, type: 3}
-  trainPrefabs: []
+  coinTag: Coin
+  magnetTag: Magnet
+  trainTags:
+  - Pf_Train01
+  - Pf_Train02
+  - Pf_Train03
+  - Pf_Train04
+  - Train 1
+  - Train 2
+  - Train 3
+  trapTags:
+  - Pf_Trap01
+  - Pf_Trap02
+  - Pf_Trap03
   spawnTrain: 0
   spawnTrap: 0
-  trapPrefabs:
-  - {fileID: 8349282762530895123, guid: 30d97614d6fa25f458827295d3e7e250, type: 3}
-  - {fileID: 8000393089320594214, guid: 11f0678ea17eacd40bc850b61ca5d77c, type: 3}
-  - {fileID: 9003514833480120619, guid: 746db8ed69b6a484d8712c927d0737a2, type: 3}
   spawnPoints:
   - {fileID: 4705536573367620664}
   - {fileID: 5573327848132289505}
@@ -748,6 +757,19 @@ MonoBehaviour:
   minCoins: 3
   maxCoins: 6
   spacing: 2
+--- !u!114 &-9033805052200450742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8739519574989841603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1d08a532eb8b7f4c8f1b8958dbb5151, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  despawnDistance: 50
 --- !u!1 &8853047410187036691
 GameObject:
   m_ObjectHideFlags: 0
@@ -773,7 +795,7 @@ Transform:
   m_GameObject: {fileID: 8853047410187036691}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -32}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -804,7 +826,7 @@ Transform:
   m_GameObject: {fileID: 9156011978252467340}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -32}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -482,6 +482,7 @@ GameObject:
   - component: {fileID: 8097822995547663352}
   - component: {fileID: 2168255221048989916}
   - component: {fileID: 4066549969743707701}
+  - component: {fileID: -6036783982297195171}
   m_Layer: 0
   m_Name: Pf_Tunnel01_03
   m_TagString: Ground
@@ -497,7 +498,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5060726471498073943}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -513,7 +514,7 @@ Transform:
   - {fileID: 4862061089798355444}
   - {fileID: 2721212250488846618}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!65 &8097822995547663352
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -568,7 +569,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64a36910272ee9846871c41fd893fd89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinPrefab: {fileID: 8331334339560245829, guid: 48bc6cf39fbd7e44d933bd03d6ce761a, type: 3}
+  coinPrefab: {fileID: 8331334339560245829, guid: 48bc6cf39fbd7e44d933bd03d6ce761a,
+    type: 3}
   trainPrefabs: []
   spawnTrain: 1
   spawnTrap: 1
@@ -583,6 +585,18 @@ MonoBehaviour:
   minCoins: 3
   maxCoins: 6
   spacing: 2
+--- !u!114 &-6036783982297195171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5060726471498073943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1d08a532eb8b7f4c8f1b8958dbb5151, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5465069580481412391
 GameObject:
   m_ObjectHideFlags: 0

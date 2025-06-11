@@ -21,9 +21,15 @@ public class PlayerConllection : MonoBehaviour
     {
         if (other.CompareTag("Coin"))
         {
-            Destroy(other.gameObject);
+ 
             GameManager.Instance.AddScore(1);
+            ObjectPool.Instance.ReturnToPool(other.gameObject);
             
+        }
+        if (other.CompareTag("Magnet"))
+        {
+            GameManager.Instance.AddMagnet(1);
+            Destroy(other.gameObject);
         }
     }
 

@@ -13,10 +13,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI topDistanceText;
     [SerializeField] private GameObject gameoverUI;
 
-    private int totalScore = 0;
-    private int currentScore = 0;
-    private int topDistance = 0;
-    private bool isGameover = false;
+    [SerializeField]  private int totalScore = 0;
+    [SerializeField]  private int currentScore = 0;
+    [SerializeField]  private int topDistance = 0;
+    [SerializeField]  private bool isGameover = false;
+    [SerializeField] private float timeMagnet;
+    [SerializeField]  private int Manget;
 
     public bool IsGameOver() => isGameover;
 
@@ -80,14 +82,33 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         UpdateScoreText();
+        UpdateTimeMagnet();
+
+
     }
 
     public void AddScore(int score)
     {
         currentScore += score;
-        Debug.Log("Score: " + currentScore);
     }
+    public void AddMagnet(int magnet)
+    {
+        Manget += magnet;
+        timeMagnet = 10;
+    }
+    public void UpdateTimeMagnet()
+    {
+        if (Manget > 0)
+        {
+            timeMagnet -= Time.deltaTime;
 
+            if (timeMagnet <= 0f)
+            {
+                Manget = 0;
+                timeMagnet = 0f;
+            }
+        }
+    }
     public void UpdateRoadDistance(float distance)
     {
         int dist = Mathf.FloorToInt(distance);

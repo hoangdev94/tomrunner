@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6667666815596869311}
   - component: {fileID: 5888457615193354154}
   - component: {fileID: 3666107049722188381}
+  - component: {fileID: 6457108489770067155}
   m_Layer: 3
   m_Name: Pf_Trap03
   m_TagString: Trap
@@ -108,3 +109,15 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.3999996, y: 1.1099663, z: 0.2}
   m_Center: {x: 0, y: 1.5950165, z: 0.000000014901163}
+--- !u!114 &6457108489770067155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9003514833480120619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f499fee0ba93df418aa94ecaa0cf85f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

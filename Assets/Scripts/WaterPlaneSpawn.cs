@@ -26,8 +26,6 @@ public class WaterPlaneSpawn : MonoBehaviour
             Debug.LogError($"{first.name} thiếu EndPoint – kiểm tra lại prefab!");
             return;
         }
-
-        // Tạo thêm các đoạn nối tiếp
         for (int i = 0; i < 2; i++)
         {
             SpawnNextWaterPlane();
@@ -36,8 +34,8 @@ public class WaterPlaneSpawn : MonoBehaviour
     }
     public void SpawnNextWaterPlane()
     {
-        
-        GameObject next = Instantiate(waterPlane);
+
+        GameObject next = ObjectPool.Instance.SpawnFromPool("WaterPlane", Vector3.zero, Quaternion.identity);
         Transform startPoint = next.transform.Find("StartPoint");
         if (startPoint != null)
         {

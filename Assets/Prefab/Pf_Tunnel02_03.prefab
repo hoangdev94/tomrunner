@@ -505,6 +505,7 @@ GameObject:
   - component: {fileID: 1738706641975936414}
   - component: {fileID: 3597597860503224877}
   - component: {fileID: 7616677306625297786}
+  - component: {fileID: 7782075651260277161}
   m_Layer: 0
   m_Name: Pf_Tunnel02_03
   m_TagString: Ground
@@ -520,7 +521,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7352278329942434861}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -533,7 +534,7 @@ Transform:
   - {fileID: 8297770999881368778}
   - {fileID: 8562648070671765274}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!65 &3597597860503224877
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -576,3 +577,15 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 6.7, y: 1, z: 16}
   m_Center: {x: 0, y: 6.8, z: -8}
+--- !u!114 &7782075651260277161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7352278329942434861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1d08a532eb8b7f4c8f1b8958dbb5151, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

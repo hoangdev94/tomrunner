@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class GroundSpawner : MonoBehaviour
 {
@@ -6,6 +7,7 @@ public class GroundSpawner : MonoBehaviour
     public GameObject[] paths;
     private Transform lastEndPoint;
     [SerializeField] GameObject first;
+
     private void Awake()
     {
         if(Instance == null)
@@ -16,23 +18,29 @@ public class GroundSpawner : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+      
     }
-    void Start()
+    private IEnumerator Start()
     {
+        Debug.Log("[GroundSpawner] Start called.");
+
+        // Đợi ObjectPool khởi tạo xong
+        yield return null;
+
         lastEndPoint = first.transform.Find("EndPoint");
         Debug.Log(lastEndPoint);
+
         if (lastEndPoint == null)
         {
             Debug.LogError($"{first.name} thiếu EndPoint – kiểm tra lại prefab!");
-            return;
+            yield break;
         }
 
-        // Tạo thêm các đoạn nối tiếp
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < 5; i++)
         {
             SpawnNextPath();
         }
-
     }
 
     public void SpawnInitialPath()
@@ -47,18 +55,18 @@ public class GroundSpawner : MonoBehaviour
     public void SpawnNextPath()
     {
         GameObject prefab = RandomPath();
-        GameObject next = Instantiate(prefab);
-
+        string tag = prefab.name;
+        GameObject next = ObjectPool.Instance.SpawnFromPool(tag, Vector3.zero, Quaternion.identity);
         Transform startPoint = next.transform.Find("StartPoint");
+
         if (startPoint != null)
         {
-            // Nếu có StartPoint → căn chính xác
+            // Lấy offset tương đối đúng
             Vector3 offset = next.transform.position - startPoint.position;
             next.transform.position = lastEndPoint.position + offset;
         }
         else
         {
-            // Nếu không có → gán luôn vị trí EndPoint của trước
             next.transform.position = lastEndPoint.position;
         }
 
@@ -69,6 +77,5 @@ public class GroundSpawner : MonoBehaviour
             Debug.LogError($"{prefab.name} thiếu EndPoint");
         }
     }
-
 }
 
