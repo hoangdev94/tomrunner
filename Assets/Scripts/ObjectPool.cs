@@ -79,7 +79,7 @@ public class ObjectPool : MonoBehaviour
 
             if (objectToSpawn == null)
             {
-                Debug.LogWarning($"<color=orange>[ObjectPool]</color> Null object in pool '{tag}'");
+                
                 continue;
             }
 
@@ -90,7 +90,7 @@ public class ObjectPool : MonoBehaviour
                 objectToSpawn.SetActive(true);
 
                 poolQueue.Enqueue(objectToSpawn);
-                Debug.Log($"<color=lime>[ObjectPool]</color> Spawned '{tag}' at {position}");
+               
                 return objectToSpawn;
             }
 
@@ -98,8 +98,7 @@ public class ObjectPool : MonoBehaviour
             poolQueue.Enqueue(objectToSpawn);
         }
 
-        // All objects are active → auto-expand
-        Debug.LogWarning($"<color=yellow>[ObjectPool]</color> Pool '{tag}' exhausted. Instantiating new object.");
+       
 
         Pool poolConfig = pools.Find(p => p.tag == tag);
         if (poolConfig != null)
@@ -163,7 +162,7 @@ public class ObjectPool : MonoBehaviour
         int activeCount = 0;
         foreach (var obj in poolDictionary[tag])
         {
-            if (obj.activeInHierarchy)
+            if (obj != null && obj.activeInHierarchy)
                 activeCount++;
         }
         return activeCount;

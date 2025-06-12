@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 7950453816432725513}
   - component: {fileID: 1868862937020810718}
   - component: {fileID: 1125140003814715519}
+  - component: {fileID: 8707163447821306191}
+  - component: {fileID: 2524008753832277958}
   m_Layer: 0
   m_Name: Pf_Coin
   m_TagString: Coin
@@ -139,3 +141,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f499fee0ba93df418aa94ecaa0cf85f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8707163447821306191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8331334339560245829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42df09f9b8ddeb14d9768104d8581843, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2524008753832277958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8331334339560245829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecedf854fa8baa540afa0674717620d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 30

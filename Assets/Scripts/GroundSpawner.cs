@@ -37,7 +37,7 @@ public class GroundSpawner : MonoBehaviour
             yield break;
         }
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 10; i++)
         {
             SpawnNextPath();
         }

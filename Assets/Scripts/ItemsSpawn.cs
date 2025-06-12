@@ -21,8 +21,7 @@ public class ItemsSpawn : MonoBehaviour
 
     private static readonly int[] indexBuffer = { 0, 1, 2 };
 
-    [SerializeField] private int maxActiveMagnets = 5;
-    [SerializeField] private float magnetSpawnChance = 0.5f; 
+    [SerializeField] private int maxActiveMagnets = 3;
 
     IEnumerator Start()
     {
@@ -35,7 +34,7 @@ public class ItemsSpawn : MonoBehaviour
 
         Shuffle(indexBuffer);
 
-        for (int i = 0; i < 2; i++) // Chọn 2 điểm bất kỳ trong 3
+        for (int i = 0; i < 2; i++)
         {
             Transform spawnPoint = spawnPoints[indexBuffer[i]];
             float rand = Random.value;
@@ -52,12 +51,12 @@ public class ItemsSpawn : MonoBehaviour
             {
                 SpawnFromPoolRandomTag(trapTags, spawnPoint.position);
             }
-            if (Random.value < magnetSpawnChance &&
-                    ObjectPool.Instance.CountActiveObjects(magnetTag) < maxActiveMagnets)
+
+            else 
             {
-                    SpawnFromPoolByTag(magnetTag, spawnPoint.position);
+                if (ObjectPool.Instance.CountActiveObjects(magnetTag) < maxActiveMagnets)
+                SpawnFromPoolByTag(magnetTag, spawnPoint.position);
             }
-           
         }
     }
 

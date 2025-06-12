@@ -5,6 +5,7 @@ public enum SIDE { Left, Mid, Right }
 
 public class PlayerController : MonoBehaviour
 {
+    public Transform coinTargetPoint;
     public static PlayerController Instance;
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 5f;

@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,12 +14,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI distanceText;
     [SerializeField] private TextMeshProUGUI topDistanceText;
     [SerializeField] private GameObject gameoverUI;
+    [SerializeField] private GameObject Items;
+    [SerializeField] private Image timeMagnetBar;
 
     [SerializeField]  private int totalScore = 0;
     [SerializeField]  private int currentScore = 0;
     [SerializeField]  private int topDistance = 0;
     [SerializeField]  private bool isGameover = false;
-    [SerializeField] private float timeMagnet;
+    [SerializeField] private float timeMagnet = 10;
+    [SerializeField] private float currenttimeMagnet;
     [SerializeField]  private int Manget;
 
     public bool IsGameOver() => isGameover;
@@ -78,6 +83,21 @@ public class GameManager : MonoBehaviour
             }
             
         }
+        if (timeMagnetBar == null)
+        {
+            var obj = GameObject.Find("SliceTimeMagnet");
+            if (obj) timeMagnetBar = obj.GetComponent<Image>();
+        }
+        if (Items == null)
+        {
+            var obj = GameObject.Find("Items");
+            if (obj)
+            {
+                Items = obj;
+                Items.SetActive(false);
+            }
+
+        }
     }
     private void Update()
     {
@@ -94,18 +114,23 @@ public class GameManager : MonoBehaviour
     public void AddMagnet(int magnet)
     {
         Manget += magnet;
-        timeMagnet = 10;
+        Items.SetActive(true);
+        currenttimeMagnet = timeMagnet;
     }
     public void UpdateTimeMagnet()
     {
         if (Manget > 0)
         {
-            timeMagnet -= Time.deltaTime;
 
-            if (timeMagnet <= 0f)
+            CoinDetected.Instance.gameObject.SetActive(true);
+            currenttimeMagnet -= Time.deltaTime;
+            timeMagnetBar.fillAmount = currenttimeMagnet / timeMagnet;
+            if (currenttimeMagnet <= 0f)
             {
                 Manget = 0;
-                timeMagnet = 0f;
+                currenttimeMagnet = 0f;
+                CoinDetected.Instance.gameObject.SetActive(false);
+                Items.SetActive(false);
             }
         }
     }

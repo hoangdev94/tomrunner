@@ -29,7 +29,7 @@ public class PlayerConllection : MonoBehaviour
         if (other.CompareTag("Magnet"))
         {
             GameManager.Instance.AddMagnet(1);
-            Destroy(other.gameObject);
+            ObjectPool.Instance.ReturnToPool(other.gameObject);
         }
     }
 
