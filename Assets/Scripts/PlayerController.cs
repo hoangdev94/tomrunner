@@ -143,6 +143,7 @@ public class PlayerController : MonoBehaviour
     void Jump()
     {
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        AudioManager.Instance.JumpAudio();
         ani?.SetTrigger("Jump");
     }
     void Knockback()
@@ -186,6 +187,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator GameOverAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
+        AudioManager.Instance.HurtClip();
         GameManager.Instance.GameOver();
         Time.timeScale = 0;
     }

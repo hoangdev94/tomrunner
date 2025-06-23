@@ -34,4 +34,12 @@ public class CanvasController : MonoBehaviour
     {
         GameManager.Instance.RestartGame();
     }
+    public void PauseGame()
+    {
+        GameManager.Instance.PauseGame();
+    }
+    public void ContinueGame()
+    {
+        GameManager.Instance.ContinueGame();
+    }
 }

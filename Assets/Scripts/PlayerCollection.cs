@@ -24,12 +24,14 @@ public class PlayerConllection : MonoBehaviour
  
             GameManager.Instance.AddScore(1);
             ObjectPool.Instance.ReturnToPool(other.gameObject);
+            AudioManager.Instance.CoinClip();
             
         }
         if (other.CompareTag("Magnet"))
         {
             GameManager.Instance.AddMagnet(1);
             ObjectPool.Instance.ReturnToPool(other.gameObject);
+            AudioManager.Instance.PickMagnet();
         }
     }
 

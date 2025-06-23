@@ -16,12 +16,18 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI topDistanceText;
     [SerializeField] private TextMeshProUGUI itemsText;
     [SerializeField] private GameObject gameoverUI;
+    [SerializeField] private GameObject pauseUI;
     [SerializeField] private GameObject itemsUI;
     [SerializeField] private Image timeMagnetBar;
     [SerializeField] private GameObject shopUI;
     [SerializeField] private GameObject settingUI;
     [SerializeField] private GameObject itemsButton;
     [SerializeField] private TextMeshProUGUI priceGold;
+    [Header("Audio Settings")]
+    [SerializeField] private Slider musicSlider;
+    [SerializeField] private Slider sfxSlider;
+    [SerializeField] private AudioSource musicAudio;
+    [SerializeField] private AudioSource sfxAudio;
 
     private int totalCoin;
     private int currentScore;
@@ -46,6 +52,13 @@ public class GameManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    private void Start()
+    {
+        musicSlider.value = musicAudio.volume;
+        sfxSlider.value = sfxAudio.volume;
+        musicSlider.onValueChanged.AddListener(SetVolumeBackGround);
+        sfxSlider.onValueChanged.AddListener(SetVolumeSFX);
     }
     private void LoadPlayerPrefs()
     {
@@ -78,6 +91,11 @@ public class GameManager : MonoBehaviour
         priceGold = TryFindUI("PriceGold", priceGold);
         timeMagnetBar = TryFindUI("SliceTimeMagnet", timeMagnetBar);
         gameoverUI = TryFindAndInitPanel("GameOverUI", gameoverUI, false);
+        pauseUI = TryFindAndInitPanel("Pause", pauseUI, false);
+        musicAudio = TryFindUI("MusicBackground", musicAudio);
+        sfxAudio = TryFindUI("SFX", sfxAudio);
+        musicSlider = TryFindUI("AudiBackgroundSlider", musicSlider);
+        sfxSlider = TryFindUI("AudioSFXSlider", sfxSlider);
         itemsUI = TryFindAndInitPanel("Items", itemsUI, false);
         shopUI = TryFindAndInitPanel("Shop", shopUI, false);
         settingUI = TryFindAndInitPanel("Settings", settingUI, false);
@@ -177,16 +195,22 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
+        AudioManager.Instance.Touch();
         isGameover = false;
         currentScore = 0;
         Time.timeScale = 1;
         SceneManager.LoadScene("MainGame");
     }
 
-    public void StartGame() => SceneManager.LoadScene("MainGame");
+    public void StartGame()
+    {
+        AudioManager.Instance.Touch();
+        SceneManager.LoadScene("MainGame");
+    }
 
     public void GoToMenu()
     {
+        AudioManager.Instance.Touch();
         isGameover = false;
         Time.timeScale = 1;
         SceneManager.LoadScene("MenuGame");
@@ -194,16 +218,19 @@ public class GameManager : MonoBehaviour
 
     public void Setting()
     {
+        AudioManager.Instance.Touch();
         if (settingUI != null) settingUI.SetActive(true);
     }
 
     public void CloseSetting()
     {
+        AudioManager.Instance.Touch();
         if (settingUI != null) settingUI.SetActive(false);
     }
 
     public void GoToShop()
     {
+        AudioManager.Instance.Touch();
         if (shopUI != null)
         {
             Debug.Log("Shop opened");
@@ -218,6 +245,7 @@ public class GameManager : MonoBehaviour
         {
             if (totalCoin >= price)
             {
+             
                 totalCoin -= price;
                 magnetItems++;
                 PlayerPrefs.SetInt("MagnetItems", magnetItems);
@@ -226,6 +254,7 @@ public class GameManager : MonoBehaviour
                 UpdateCoinText();
                 UpdateItemsUI();
                 Debug.Log("Item purchased!");
+                AudioManager.Instance.BuyItems();
             }
             else
             {
@@ -255,12 +284,14 @@ public class GameManager : MonoBehaviour
 
     public void ShopToMenu()
     {
+        AudioManager.Instance.Touch();
         if (shopUI != null) shopUI.SetActive(false);
     }
 
     public void UseItems()
     {
-       
+        AudioManager.Instance.PickMagnet();
+
         if (magnetItems <= 0)
         {
             
@@ -280,9 +311,27 @@ public class GameManager : MonoBehaviour
         totalCoin += 1000;
         UpdateCoinText();
     }
+   public void PauseGame()
+    {
+        pauseUI.SetActive(true);
+        Time.timeScale = 0;
+    }
+    public void ContinueGame()
+    {
 
+        Time.timeScale = 1;
+        pauseUI.SetActive(false);
+    }
     private void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    public void SetVolumeBackGround(float volume)
+    {
+        musicAudio.volume = volume;
+    }
+    public void SetVolumeSFX(float volume)
+    {
+        sfxAudio.volume = volume;
     }
 }
