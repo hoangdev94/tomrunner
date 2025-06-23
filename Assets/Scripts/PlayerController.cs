@@ -174,19 +174,19 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground")) isGrounded = false;
     }
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.CompareTag("Trap"))
-    //    {
-    //        Knockback();
-    //        StartCoroutine(GameOverAfterDelay(2f));
-    //    }
-    //}
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Trap"))
+        {
+            Knockback();
+            StartCoroutine(GameOverAfterDelay(2f));
+        }
+    }
 
-    //private IEnumerator GameOverAfterDelay(float delay)
-    //{
-    //    yield return new WaitForSeconds(delay);
-    //    GameManager.Instance.GameOver();
-    //    Time.timeScale = 0;
-    //}
+    private IEnumerator GameOverAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        GameManager.Instance.GameOver();
+        Time.timeScale = 0;
+    }
 }

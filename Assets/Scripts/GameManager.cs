@@ -1,6 +1,6 @@
-﻿
-using System.Collections;
+﻿using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,19 +11,27 @@ public class GameManager : MonoBehaviour
 
     [Header("UI References")]
     [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI totalCoinText;
     [SerializeField] private TextMeshProUGUI distanceText;
     [SerializeField] private TextMeshProUGUI topDistanceText;
+    [SerializeField] private TextMeshProUGUI itemsText;
     [SerializeField] private GameObject gameoverUI;
-    [SerializeField] private GameObject Items;
+    [SerializeField] private GameObject itemsUI;
     [SerializeField] private Image timeMagnetBar;
+    [SerializeField] private GameObject shopUI;
+    [SerializeField] private GameObject settingUI;
+    [SerializeField] private GameObject itemsButton;
+    [SerializeField] private TextMeshProUGUI priceGold;
 
-    [SerializeField]  private int totalScore = 0;
-    [SerializeField]  private int currentScore = 0;
-    [SerializeField]  private int topDistance = 0;
-    [SerializeField]  private bool isGameover = false;
-    [SerializeField] private float timeMagnet = 10;
-    [SerializeField] private float currenttimeMagnet;
-    [SerializeField]  private int Manget;
+    private int totalCoin;
+    private int currentScore;
+    private int topDistance;
+    private bool isGameover;
+    private int magnetItems;
+
+    private float timeMagnet = 10f;
+    private float currentMagnetTime;
+    private int magnetCount;
 
     public bool IsGameOver() => isGameover;
 
@@ -39,107 +47,92 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
-
-    private void Start()
+    private void LoadPlayerPrefs()
     {
         topDistance = PlayerPrefs.GetInt("TopDistance", 0);
-        UpdateTopDistance();
-        FindUIReferences(); 
+        totalCoin = PlayerPrefs.GetInt("TotalCoin", 0);
+        magnetItems = PlayerPrefs.GetInt("MagnetItems", 0);
     }
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "MainGame")
-        {
-            FindUIReferences();
-        }
+        LoadPlayerPrefs();
+        FindUIReferences();
+        UpdateAllUI();
+        UpdateItemsUI();
     }
-    private void FindUIReferences()
-    {
-        if (scoreText == null)
-        {
-            var obj = GameObject.Find("ScoreText");
-            if (obj) scoreText = obj.GetComponent<TextMeshProUGUI>();
-        }
 
-        if (distanceText == null)
-        {
-            var obj = GameObject.Find("DistanceText");
-            if (obj) distanceText = obj.GetComponent<TextMeshProUGUI>();
-        }
-
-        if (topDistanceText == null)
-        {
-            var obj = GameObject.Find("TopDistanceText");
-            if (obj) topDistanceText = obj.GetComponent<TextMeshProUGUI>();
-        }
-
-        if (gameoverUI == null)
-        {
-            var obj = GameObject.Find("GameOverUI");
-            if (obj)
-            {
-                gameoverUI = obj;
-                gameoverUI.SetActive(false);
-            }
-            
-        }
-        if (timeMagnetBar == null)
-        {
-            var obj = GameObject.Find("SliceTimeMagnet");
-            if (obj) timeMagnetBar = obj.GetComponent<Image>();
-        }
-        if (Items == null)
-        {
-            var obj = GameObject.Find("Items");
-            if (obj)
-            {
-                Items = obj;
-                Items.SetActive(false);
-            }
-
-        }
-    }
     private void Update()
     {
         UpdateScoreText();
-        UpdateTimeMagnet();
-
-
+        UpdateMagnetEffect();
     }
 
-    public void AddScore(int score)
+    private void FindUIReferences()
     {
-        currentScore += score;
+        scoreText = TryFindUI("ScoreText", scoreText);
+        distanceText = TryFindUI("DistanceText", distanceText);
+        itemsText = TryFindUI("ItemsCountText", itemsText);
+        topDistanceText = TryFindUI("TopDistanceText", topDistanceText);
+        totalCoinText = TryFindUI("Coin_Value", totalCoinText);
+        priceGold = TryFindUI("PriceGold", priceGold);
+        timeMagnetBar = TryFindUI("SliceTimeMagnet", timeMagnetBar);
+        gameoverUI = TryFindAndInitPanel("GameOverUI", gameoverUI, false);
+        itemsUI = TryFindAndInitPanel("Items", itemsUI, false);
+        shopUI = TryFindAndInitPanel("Shop", shopUI, false);
+        settingUI = TryFindAndInitPanel("Settings", settingUI, false);
+        itemsButton = TryFindAndInitPanel("ItemsButton", itemsButton, false);
     }
+
+    private T TryFindUI<T>(string name, T current) where T : Component
+    {
+        return current != null ? current : GameObject.Find(name)?.GetComponent<T>();
+    }
+
+    private GameObject TryFindAndInitPanel(string name, GameObject current, bool active)
+    {
+        if (current != null) return current;
+        var obj = GameObject.Find(name);
+        if (obj) obj.SetActive(active);
+        return obj;
+    }
+
+    private void UpdateAllUI()
+    {
+        UpdateTopDistance();
+        UpdateCoinText();
+    }
+
+    public void AddScore(int score) => currentScore += score;
+
     public void AddMagnet(int magnet)
     {
-        Manget += magnet;
-        Items.SetActive(true);
-        currenttimeMagnet = timeMagnet;
+        magnetCount += magnet;
+        currentMagnetTime = timeMagnet;
+        if (itemsUI != null) itemsUI.SetActive(true);
     }
-    public void UpdateTimeMagnet()
-    {
-        if (Manget > 0)
-        {
 
-            CoinDetected.Instance.gameObject.SetActive(true);
-            currenttimeMagnet -= Time.deltaTime;
-            timeMagnetBar.fillAmount = currenttimeMagnet / timeMagnet;
-            if (currenttimeMagnet <= 0f)
-            {
-                Manget = 0;
-                currenttimeMagnet = 0f;
-                CoinDetected.Instance.gameObject.SetActive(false);
-                Items.SetActive(false);
-            }
+    private void UpdateMagnetEffect()
+    {
+        if (magnetCount <= 0) return;
+        if (CoinDetected.Instance != null) CoinDetected.Instance.gameObject.SetActive(true);
+
+        currentMagnetTime -= Time.deltaTime;
+        if (timeMagnetBar != null) timeMagnetBar.fillAmount = currentMagnetTime / timeMagnet;
+
+        if (currentMagnetTime <= 0f)
+        {
+            magnetCount = 0;
+            currentMagnetTime = 0f;
+            if (CoinDetected.Instance != null) CoinDetected.Instance.gameObject.SetActive(false);
+            if (itemsUI != null) itemsUI.SetActive(false);
         }
     }
+
     public void UpdateRoadDistance(float distance)
     {
         int dist = Mathf.FloorToInt(distance);
-
-        if (distanceText != null)
-            distanceText.text = $"{dist} m";
+        if (distanceText != null) distanceText.text = $"{dist} m";
 
         if (dist > topDistance)
         {
@@ -150,40 +143,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void UpdateTopDistance()
+    private void UpdateTopDistance()
     {
         if (topDistanceText != null)
             topDistanceText.text = $"{topDistance} m";
-    }
-
-    public void GameOver()
-    {
-        isGameover = true;
-        totalScore += currentScore;
-
-        if (gameoverUI != null)
-            gameoverUI.SetActive(true);
-        UpdateTopDistance();
-    }
-   
-    public void RestartGame()
-    {
-        isGameover = false;
-        currentScore = 0;
-        Time.timeScale = 1;
-        SceneManager.LoadScene("MainGame");
-    }
-
-    public void StartGame()
-    {
-        SceneManager.LoadScene("MainGame");
-    }
-
-    public void GoToMenu()
-    {
-        Time.timeScale = 1f;
-        isGameover = false;
-        SceneManager.LoadScene("MenuGame");
     }
 
     private void UpdateScoreText()
@@ -192,6 +155,131 @@ public class GameManager : MonoBehaviour
             scoreText.text = currentScore.ToString();
     }
 
+    private void UpdateCoinText()
+    {
+        if (totalCoinText != null)
+            totalCoinText.text = totalCoin.ToString();
+    }
+
+    public void GameOver()
+    {
+        isGameover = true;
+        totalCoin += currentScore;
+        currentScore = 0;
+
+        if (gameoverUI != null) gameoverUI.SetActive(true);
+
+        PlayerPrefs.SetInt("TotalCoin", totalCoin);
+        PlayerPrefs.Save();
+
+        UpdateTopDistance();
+    }
+
+    public void RestartGame()
+    {
+        isGameover = false;
+        currentScore = 0;
+        Time.timeScale = 1;
+        SceneManager.LoadScene("MainGame");
+    }
+
+    public void StartGame() => SceneManager.LoadScene("MainGame");
+
+    public void GoToMenu()
+    {
+        isGameover = false;
+        Time.timeScale = 1;
+        SceneManager.LoadScene("MenuGame");
+    }
+
+    public void Setting()
+    {
+        if (settingUI != null) settingUI.SetActive(true);
+    }
+
+    public void CloseSetting()
+    {
+        if (settingUI != null) settingUI.SetActive(false);
+    }
+
+    public void GoToShop()
+    {
+        if (shopUI != null)
+        {
+            Debug.Log("Shop opened");
+            shopUI.SetActive(true);
+            UpdateCoinText();
+        }
+    }
+
+    public void BuyItems()
+    {
+        if (int.TryParse(priceGold.text, out int price))
+        {
+            if (totalCoin >= price)
+            {
+                totalCoin -= price;
+                magnetItems++;
+                PlayerPrefs.SetInt("MagnetItems", magnetItems);
+                PlayerPrefs.Save();
+
+                UpdateCoinText();
+                UpdateItemsUI();
+                Debug.Log("Item purchased!");
+            }
+            else
+            {
+                Debug.Log("Not enough coins.");
+            }
+        }
+        else
+        {
+            Debug.Log("Invalid price format.");
+        }
+    }
+
+    private void UpdateItemsUI()
+    {
+        if (itemsButton != null)
+        {
+            itemsButton.SetActive(magnetItems > 0);
+            UpdateItemsText();
+        }
+    }
+
+    private void UpdateItemsText()
+    {
+        if (itemsText != null)
+            itemsText.text = magnetItems.ToString();
+    }
+
+    public void ShopToMenu()
+    {
+        if (shopUI != null) shopUI.SetActive(false);
+    }
+
+    public void UseItems()
+    {
+       
+        if (magnetItems <= 0)
+        {
+            
+            return;
+        }
+
+        magnetItems--;
+        PlayerPrefs.SetInt("MagnetItems", magnetItems);
+        PlayerPrefs.Save();
+        AddMagnet(1);
+        UpdateItemsUI();
+
+  
+    }
+    public void AddGold()
+    {
+        totalCoin += 1000;
+        UpdateCoinText();
+    }
 
     private void OnDestroy()
     {

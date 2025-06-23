@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 7619533921396094678}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.03276047, y: 0.88341606, z: 182.32942}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -45,6 +45,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 0}
+  totalCoinText: {fileID: 0}
   distanceText: {fileID: 0}
   topDistanceText: {fileID: 0}
+  itemsText: {fileID: 0}
   gameoverUI: {fileID: 0}
+  itemsUI: {fileID: 0}
+  timeMagnetBar: {fileID: 0}
+  shopUI: {fileID: 0}
+  settingUI: {fileID: 0}
+  itemsButton: {fileID: 0}
+  priceGold: {fileID: 0}
